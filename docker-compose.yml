@@ -1,0 +1,74 @@
+version: "3.8"
+
+services:
+  # MongoDB (shared across services)
+  mongo:
+    image: mongo:latest
+    container_name: mongo_db
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  # Redis (optional - used by API Gateway or caching layers)
+  redis:
+    image: bitnami/redis:6.0.16
+    container_name: redis_server
+    ports:
+      - "6379:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+
+  # RabbitMQ
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672" # AMQP protocol
+      - "15672:15672" # RabbitMQ Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+      # Notification Service
+  notification-service:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: development
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./notification-service:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - RABBITMQ_URI=amqp://guest:guest@rabbitmq:5672
+      - RABBITMQ_QUEUE=notifications
+    command: npm run start:dev
+    depends_on:
+      - rabbitmq
+      - redis
+
+  # API Gateway
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./api-gateway:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm run start:dev
+
+volumes:
+  mongo_data:
+  rabbitmq_data:
