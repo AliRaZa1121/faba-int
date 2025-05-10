@@ -4,10 +4,10 @@ import { APP_FILTER } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RedisModule } from './app/cache/redis.module';
+import { NotificationModule } from './app/notification/notification.module';
 import { HttpExceptionFilter } from './core/exceptions/http.exception';
 import { AuthModule } from './modules/auth/auth.module';
 import { DatabaseModule } from './modules/database/database.module';
-import { ServiceAModule } from './modules/service-a/service-a.module';
 import { TokenModule } from './modules/tokens/token.module';
 
 @Module({
@@ -22,7 +22,7 @@ import { TokenModule } from './modules/tokens/token.module';
     DatabaseModule,
     AuthModule,
     TokenModule,
-    ServiceAModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [

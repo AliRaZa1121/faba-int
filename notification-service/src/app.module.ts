@@ -7,6 +7,7 @@ import { RedisModule } from './app/cache/redis.module';
 import { MailModule } from './app/mail/mail.module';
 import { QueueModule } from './app/queue/queue.module';
 import { MicroserviceExceptionFilter } from './core/exceptions/RpcExceptionFilter';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { MicroserviceExceptionFilter } from './core/exceptions/RpcExceptionFilte
     RedisModule,
     QueueModule,
     MailModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [

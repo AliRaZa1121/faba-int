@@ -9,7 +9,6 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { FilterQuery } from 'mongoose';
 import RedisService from 'src/app/cache/redis.service';
-// import QueueService from 'src/app/queue/queue.service';
 import { ComparePassword, HashPassword } from 'src/helpers/hashing.helper';
 import { successApiWrapper } from 'src/utilities/constant/response-constant';
 import { TokenReason, TokenStatus } from 'src/utilities/enums/database.enum';
@@ -33,6 +32,7 @@ import { RefreshAccessTokenRequestDTO } from './dto/refresh-token.dto';
 import ResetPasswordRequestDTO from './dto/reset-password.dto';
 import { LoginRequestDTO } from './dto/signin.dto';
 import { SignupRequestDTO } from './dto/signup.dto';
+import { NotificationService } from 'src/app/notification/notification.service';
 
 @Injectable()
 export default class AuthService {
@@ -42,7 +42,7 @@ export default class AuthService {
     private _jwtService: JwtService,
     private _configService: ConfigService,
     private _tokenService: TokenService,
-    // private _queueService: QueueService,
+    private _notificationService: NotificationService,
   ) {}
 
   async signup(
@@ -338,6 +338,6 @@ export default class AuthService {
       linkText: 'Reset Password',
     };
 
-    // this._queueService.bullQueEmail(data);
+    this._notificationService.sendEmail(data);
   }
 }

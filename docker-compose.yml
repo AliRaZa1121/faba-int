@@ -67,7 +67,12 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - RABBITMQ_URI=amqp://guest:guest@rabbitmq:5672  # ✅ ADD THIS LINE
     command: npm run start:dev
+    depends_on:
+      - mongo
+      - redis
+      - rabbitmq
 
 volumes:
   mongo_data:
