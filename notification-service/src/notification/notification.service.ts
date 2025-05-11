@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import QueueService from 'src/app/queue/queue.service';
+import { MailService } from 'src/app/mail/mail.service';
 import { SendMailMessageInterface } from 'src/utilities/interfaces/mail-interface';
 
 @Injectable()
 export class NotificationService {
-    constructor(private readonly queueService: QueueService) { }
+    constructor(private readonly mailService: MailService) { }
 
     sendEmailNotification(data: SendMailMessageInterface) {
-        this.queueService.bullQueEmail(data);
+        this.mailService.sendMail(data);
     }
 }

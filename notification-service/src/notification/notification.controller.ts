@@ -13,11 +13,4 @@ export class NotificationController {
         return this.notificationService.sendEmailNotification(data);
     }
 
-    @MessagePattern("double_number")
-    handleDoubleNumber(@Payload() num: number): number {
-        console.log('Received number to double:', num);
-        return num * 2;
-    }
-
-
 }

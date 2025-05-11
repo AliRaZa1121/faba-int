@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { QueueModule } from 'src/app/queue/queue.module';
+import { MailModule } from 'src/app/mail/mail.module';
 import { NotificationController } from './notification.controller';
 import { NotificationService } from './notification.service';
 
 @Module({
-    imports: [QueueModule],
+    imports: [MailModule],
     controllers: [NotificationController],
     providers: [NotificationService],
 })
