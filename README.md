@@ -19,7 +19,7 @@
 ## 📁 Project Structure
 
 ```
-FABA-INT-TEST/
+faba-int/
 ├── api-gateway/            # API Gateway (client entry point)
 ├── order-service/          # Manages order operations (create, update, delete)
 ├── notification-service/   # Manages notification and email dispatch
