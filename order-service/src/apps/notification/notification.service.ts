@@ -16,9 +16,6 @@ export class NotificationService {
     async sendEmail(data: any) {
         console.log('Sending email notification');
         this.client.emit(MICROSERVICE_MESSAGE_PATTERN.EMAIL, data);
-        // await firstValueFrom(
-            // this.client.send<number, number>(MICROSERVICE_MESSAGE_PATTERN.EMAIL, data),
-        // );
     }
 
     async doubleNumber(num: number): Promise<void> {
