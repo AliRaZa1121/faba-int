@@ -10,9 +10,10 @@ export default class QueueService {
   constructor(
     @InjectQueue(REGISTERED_QUEUE.QUEUE)
     private readonly queuesHandlerEvent: Queue,
-  ) {}
+  ) { }
 
   bullQueEmail(data: SendMailMessageInterface) {
+    console.log('Adding email job to queue:');
     this.queuesHandlerEvent.add(QueueJobsEnum.EMAIL_JOB, data);
   }
 }

@@ -5,7 +5,7 @@ import InjectPipes from './core/injectables/pipes';
 
 async function bootstrap() {
 
-  console.log('Starting notification service...');
+  console.log('Starting order service...');
   console.log('RABBITMQ_URI:', process.env.RABBITMQ_URI);
   console.log('RABBITMQ_QUEUE:', process.env.RABBITMQ_QUEUE);
 
@@ -13,7 +13,7 @@ async function bootstrap() {
     transport: Transport.RMQ,
     options: {
       urls: [process.env.RABBITMQ_URI || 'amqp://guest:guest@rabbitmq:5672'],
-      queue: process.env.RABBITMQ_QUEUE || 'notifications_service_queue',
+      queue: process.env.RABBITMQ_QUEUE || 'orders_service_queue',
       queueOptions: {
         durable: false,
       },

@@ -44,6 +44,7 @@ export class MailService {
         }),
       });
     } catch (error) {
+      console.error('Error sending email:', error);
       return false;
     }
   }

@@ -8,7 +8,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { FilterQuery } from 'mongoose';
-import RedisService from 'src/app/cache/redis.service';
+import RedisService from 'src/apps/cache/redis.service';
 import { ComparePassword, HashPassword } from 'src/helpers/hashing.helper';
 import { successApiWrapper } from 'src/utilities/constant/response-constant';
 import { TokenReason, TokenStatus } from 'src/utilities/enums/database.enum';
@@ -32,7 +32,7 @@ import { RefreshAccessTokenRequestDTO } from './dto/refresh-token.dto';
 import ResetPasswordRequestDTO from './dto/reset-password.dto';
 import { LoginRequestDTO } from './dto/signin.dto';
 import { SignupRequestDTO } from './dto/signup.dto';
-import { NotificationService } from 'src/app/notification/notification.service';
+import { NotificationService } from 'src/apps/notification/notification.service';
 
 @Injectable()
 export default class AuthService {
@@ -338,6 +338,7 @@ export default class AuthService {
       linkText: 'Reset Password',
     };
 
-    this._notificationService.sendEmail(data);
+    // await this._notificationService.doubleNumber(2);
+    await this._notificationService.sendEmail(data);
   }
 }

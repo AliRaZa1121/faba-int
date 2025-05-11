@@ -10,13 +10,14 @@ export class NotificationController {
 
     @MessagePattern(MicroserviceMessagePatternEnum.EMAIL)
     async handleEmailNotification(@Payload() data: SendMailMessageInterface) {
-        console.log('Received email notification');
         return this.notificationService.sendEmailNotification(data);
     }
 
-    @MessagePattern()
-    testAnyMessage(@Payload() data: any) {
-        console.log('💡 Received message on generic pattern:', data);
+    @MessagePattern("double_number")
+    handleDoubleNumber(@Payload() num: number): number {
+        console.log('Received number to double:', num);
+        return num * 2;
     }
+
 
 }

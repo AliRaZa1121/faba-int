@@ -32,7 +32,7 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
-      # Notification Service
+  # Notification Service
   notification-service:
     build:
       context: ./notification-service
@@ -47,11 +47,31 @@ services:
     environment:
       - NODE_ENV=development
       - RABBITMQ_URI=amqp://guest:guest@rabbitmq:5672
-      - RABBITMQ_QUEUE=notifications
+      - RABBITMQ_QUEUE=notifications_service_queue
     command: npm run start:dev
     depends_on:
       - rabbitmq
       - redis
+
+  order-service:
+    build:
+      context: ./order-service
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: development
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./order-service:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - RABBITMQ_URI=amqp://guest:guest@rabbitmq:5672
+      - RABBITMQ_QUEUE=orders_service_queue
+    command: npm run start:dev
+    depends_on:
+      - rabbitmq
+      - mongo
 
   # API Gateway
   api-gateway:
@@ -67,7 +87,7 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
-      - RABBITMQ_URI=amqp://guest:guest@rabbitmq:5672  # ✅ ADD THIS LINE
+      - RABBITMQ_URI=amqp://guest:guest@rabbitmq:5672
     command: npm run start:dev
     depends_on:
       - mongo
